@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de Tempo de Vida por preço</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f4;
+      color: #333;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .dark-mode {
+      background-color: #121212;
+      color: #f4f4f4;
+    }
+
+    .container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+      position: relative;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .dark-mode .container {
+      background-color: #1e1e1e;
+      box-shadow: 0 0 10px rgba(255,255,255,0.05);
+    }
+
+    label, input, button {
+      display: block;
+      margin: 10px auto;
+    }
+
+    input {
+      padding: 8px;
+      width: 200px;
+      background-color: #fff;
+      color: #000;
+      border: 1px solid #ccc;
+    }
+
+    .dark-mode input {
+      background-color: #2a2a2a;
+      color: #f4f4f4;
+      border: 1px solid #444;
+    }
+
+    button {
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #resultado {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    #toggle-tema {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 6px 12px;
+      font-size: 12px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .dark-mode #toggle-tema {
+      background-color: #eee;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button id="toggle-tema" onclick="alternarTema()">Tema Escuro</button>
+
+    <h1>Calculadora de Tempo de Vida</h1>
+
+    <label for="salario">Qual o seu salário mensal (R$)?</label>
+    <input type="number" id="salario" placeholder="Ex: 1500">
+
+    <label for="horas_trabalhadas">Quantas horas por dia você trabalha?</label>
+    <input type="number" id="horas_trabalhadas" placeholder="Ex: 40">
+
+    <label for="dias_trabalhados">Quantos dias por mês você trabalha?</label>
+    <input type="number" id="dias_trabalhados" placeholder="Ex: 40">
+
+    <label for="preco">Preço do produto (R$):</label>
+    <input type="number" id="preco" placeholder="Ex: 500">
+
+    <button onclick="calcular()">Calcular</button>
+
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    function calcular() {
+      const salario = parseFloat(document.getElementById('salario').value);
+      const horas_trabalhadas = parseInt(document.getElementById('horas_trabalhadas').value);
+      const dias_trabalhados = parseInt(document.getElementById('dias_trabalhados').value);
+      const preco = parseFloat(document.getElementById('preco').value);
+      const resultado = document.getElementById('resultado');
+
+      if (isNaN(salario) || isNaN(preco) || isNaN(horas_trabalhadas) || isNaN(dias_trabalhados) || salario <= 0 || horas_trabalhadas <= 0 || dias_trabalhados <= 0) {
+        resultado.textContent = "Por favor, preencha os valores corretamente.";
+        return;
+      }
+
+      const hora_de_trabalho = salario / dias_trabalhados / horas_trabalhadas;
+      const preco_de_vida = preco / hora_de_trabalho;
+
+      resultado.textContent = `Sua hora de trabalho vale R$ ${hora_de_trabalho.toFixed(2)} e você gastou aproximadamente ${preco_de_vida.toFixed(2)} horas da sua vida para comprar isso, são ${(preco_de_vida / 24).toFixed(1)} dias! Vale a pena?`;
+    }
+
+    function alternarTema() {
+      const body = document.body;
+      body.classList.toggle('dark-mode');
+
+      const botao = document.getElementById('toggle-tema');
+      if (body.classList.contains('dark-mode')) {
+        botao.textContent = "Tema Claro";
+      } else {
+        botao.textContent = "Tema Escuro";
+      }
+    }
+  </script>
+</body>
+</html>
