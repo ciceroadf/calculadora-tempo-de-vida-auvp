@@ -87,9 +87,9 @@
     }
   </style>
 </head>
-<body>
+<body class="dark-mode">
   <div class="container">
-    <button id="toggle-tema" onclick="alternarTema()">Tema Escuro</button>
+    <button id="toggle-tema" onclick="alternarTema()">Tema Claro</button>
 
     <h1>Calculadora de Tempo de Vida</h1>
 
@@ -124,9 +124,15 @@
       }
 
       const hora_de_trabalho = salario / dias_trabalhados / horas_trabalhadas;
+
+      if (hora_de_trabalho === 0 || isNaN(hora_de_trabalho)) {
+        resultado.textContent = "Não foi possível calcular o valor da hora de trabalho.";
+        return;
+      }
+
       const preco_de_vida = preco / hora_de_trabalho;
 
-      resultado.textContent = `Sua hora de trabalho vale R$ ${hora_de_trabalho.toFixed(2)} e você gastou aproximadamente ${preco_de_vida.toFixed(2)} horas da sua vida para comprar isso, são ${(preco_de_vida / 24).toFixed(1)} dias! Vale a pena?`;
+      resultado.textContent = `Sua hora de trabalho vale R$ ${hora_de_trabalho.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})} e você gastaria aproximadamente ${preco_de_vida.toFixed(2)} horas da sua vida para comprar isso, são ${((preco_de_vida / horas_trabalhadas)).toFixed(1)} dias de trabalho! Vale a pena?`;
     }
 
     function alternarTema() {
